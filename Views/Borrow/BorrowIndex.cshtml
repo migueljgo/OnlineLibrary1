@@ -1,0 +1,48 @@
+﻿@model   OnlineLibrary1.Models.OLVM
+
+
+@{
+    ViewBag.Title = "BorrowIndex";
+}
+
+<h2>Borrow History</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.borroweds.Book.Title)
+        </th>
+        <th>
+           Full Name
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.borrowedsList) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Book.Title)
+        </td>
+        <td>
+            @item.User.FirstName  @item.User.LastName
+        </td>
+        <td>
+          
+
+            @using (Html.BeginForm("Delete", "Borrow", FormMethod.Post))
+                {
+                    
+
+
+                <input type="hidden" value="@item.ID" name="id" id="test" />
+                <button type="submit" id="@item.ID" class="btn btn-danger " data-toggle="tooltip" data-placement="top" title="Delete"> Return Book</button>
+
+                @*<input type="submit" value="&#xf2ed" class="btn btn-danger btn-xs col-lg-6" onclick="return confirm('Are you sure?')" />*@
+
+
+            }
+        </td>
+    </tr>
+}
+
+</table>

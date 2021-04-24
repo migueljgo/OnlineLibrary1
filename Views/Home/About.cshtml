@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+
+<style>
+    html {
+        box-sizing: border-box;
+    }
+
+    *, *:before, *:after {
+        box-sizing: inherit;
+    }
+
+    .column {
+        float: left;
+        width: 25%;
+        margin-bottom: 16px;
+        padding: 0 8px;
+    }
+
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .container {
+        padding: 0 16px;
+    }
+
+        .container::after, .row::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+    .title {
+        color: grey;
+    }
+
+
+</style>
+
+<h2><strong><font face="Arial"> About Digital Library </font></strong></h2>
+<p style="text-align:justify">The pandemic has made major impacts towards a student`s life. Since then it is encouraged for people to innovate and find ways to continue forward despite staying inside of their homes. The application aims to help students who are wanting to go to their local libraries to read and learn. The Digital Library provides a safer environment, avoiding any forms of physical contact. It offers books to everyone online for free, but in order to access, the user is required to make an account. </p>
+
+<h2><strong><font face="Arial"> Our Team </font></strong></h2>
+<div class="row">
+    <div class="column">
+        <div class="card">
+            <img src="~/img/nikki.jpg" style="width:100%; height:350px;">
+            <div class="container">
+                <h2>Dominique Barrion</h2>
+                <p class="title">Documentation</p>
+                <p>Founder of the Digital Library</p>
+
+                <p class="title">Email</p>
+                <p>Dominique.Barrion@benilde.edu.ph</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="column">
+        <div class="card">
+            <img src="~/img/miguel.jpg" style="width:100%; height:350px;">
+            <div class="container">
+                <h2>Miguel Go</h2>
+                <p class="title">Lead Developer</p>
+                <p>Founder of the Digital Library</p>
+                <p class="title">Email</p>
+                <p>Miguel.Go@benilde.edu.ph</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="column">
+        <div class="card">
+            <img src="~/img/sherly.jpg" style="width:100%; height:350px;">
+            <div class="container">
+                <h2>Sherly Anecito</h2>
+                <p class="title">Lead Designer</p>
+                <p>Founder of the Digital Library</p>
+                <p class="title">Email</p>
+                <p>Sherly.Anecito@benilde.edu.ph</p>
+            </div>
+        </div>
+    </div>
+
+
+</div>

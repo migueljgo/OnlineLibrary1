@@ -1,0 +1,234 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<style>
+    .jumbotron {
+        height: 300px;
+        color: white;
+    }
+
+    .card-image {
+        background-image: url(/img/header.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+
+    * {
+        font-family: Arial;
+        text-align: justify;
+    }
+
+    /*slideshow*/
+    .slideshowContainer {
+        position: relative;
+        overflow: hidden;
+        margin: 50px 0 75px;
+        width: 100%;
+        height: 500px;
+    }
+
+    .imageSlides {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        min-width: 100%;
+        min-height: 100%;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+        z-index: -1;
+    }
+
+    /* add 'visible' class via Javascript */
+    .visible {
+        opacity: 1;
+    }
+
+    .slideshowArrow {
+        font-size: 7em;
+        color: rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+        transition: opacity 0.2s ease-in-out;
+    }
+
+        .slideshowArrow:hover {
+            opacity: 0.75;
+        }
+
+    #leftArrow {
+        position: absolute;
+        left: 4%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    #rightArrow {
+        position: absolute;
+        right: 4%;
+        top: 50%;
+        transform: translate(50%, -50%);
+    }
+
+    .slideshowCircles {
+        position: absolute;
+        bottom: 2%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+
+    .circle {
+        display: inline-block;
+        margin-left: 3px;
+        margin-right: 3px;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        border: solid 2px rgba(255, 255, 255, 0.5);
+        transition: 1s ease-in-out;
+    }
+
+    .dot {
+        background-color: rgba(255, 255, 255, 0.7);
+        border: solid 2px rgba(255, 255, 255, 0.5);
+    }
+</style>
+
+<br />
+
+<div class="jumbotron card card-image">
+    <h1>Digital Library</h1>
+    <p class="lead">The Digital Library provides a safer environment, avoiding any forms of physical contact. It offers books to everyone online for free!</p>
+    <p><a href="@Url.Action("About", "Home")" class="btn btn-default btn-lg">Learn more</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Users</h2>
+        <p>
+           Check if you already have an account. If you don`t have an account you can register easily!
+        </p>
+        <p><a class="btn btn-default"  href="@Url.Action("Index", "Users")">See Users</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Borrow Books</h2>
+        <p>Check the avaible books now!</p>
+        <p><a class="btn btn-default" href="@Url.Action("BorrowIndex", "Borrow")">Borrow books</a></p>
+    </div>
+
+</div>
+
+<hr style="border-top-color: black; opacity:0.5" />
+
+<h2><strong>Gallery</strong></h2>
+<div class="slideshowContainer">
+
+    <!-- -->
+    <img class="imageSlides" src="~/img/1.jpg">
+    <img class="imageSlides" src="~/img/2.jpg">
+    <img class="imageSlides" src="~/img/3.jpg">
+    <img class="imageSlides" src="~/img/4.jpg">
+    <img class="imageSlides" src="~/img/5.jpg">
+
+    <!-- Arrows -->
+    <span id="leftArrow" class="slideshowArrow">&#8249;</span>
+    <span id="rightArrow" class="slideshowArrow">&#8250;</span>
+
+    <div class="slideshowCircles">
+        <!-- Dots -->
+        <span class="circle dot"></span>
+        <span class="circle"></span>
+        <span class="circle"></span>
+        <span class="circle"></span>
+        <span class="circle"></span>
+    </div>
+
+</div>
+
+
+<script>
+    // Slides, Circles, Arrays & Counter
+    var imageSlides = document.getElementsByClassName('imageSlides');
+    var circles = document.getElementsByClassName('circle');
+    var leftArrow = document.getElementById('leftArrow');
+    var rightArrow = document.getElementById('rightArrow');
+    var counter = 0;
+
+    // Hide images function
+    function hideImages() {
+        for (var i = 0; i < imageSlides.length; i++) {
+            imageSlides[i].classList.remove('visible');
+        }
+    }
+
+    // Remove dots function
+    function removeDots() {
+        for (var i = 0; i < imageSlides.length; i++) {
+            circles[i].classList.remove('dot');
+        }
+    }
+
+    // Single image loop/Circles function
+    function imageLoop() {
+        var currentImage = imageSlides[counter];
+        var currentDot = circles[counter];
+        currentImage.classList.add('visible');
+        removeDots();
+        currentDot.classList.add('dot');
+        counter++;
+    }
+
+    // Left & right function & Click event
+    function arrowClick(e) {
+        var target = e.target;
+        if (target == leftArrow) {
+            clearInterval(imageSlideshowInterval);
+            hideImages();
+            removeDots();
+            if (counter == 1) {
+                counter = (imageSlides.length - 1);
+                imageLoop();
+                imageSlideshowInterval = setInterval(slideshow, 10000);
+            } else {
+                counter--;
+                counter--;
+                imageLoop();
+                imageSlideshowInterval = setInterval(slideshow, 10000);
+            }
+        }
+        else if (target == rightArrow) {
+            clearInterval(imageSlideshowInterval);
+            hideImages();
+            removeDots();
+            if (counter == imageSlides.length) {
+                counter = 0;
+                imageLoop();
+                imageSlideshowInterval = setInterval(slideshow, 10000);
+            } else {
+                imageLoop();
+                imageSlideshowInterval = setInterval(slideshow, 10000);
+            }
+        }
+    }
+
+    leftArrow.addEventListener('click', arrowClick);
+    rightArrow.addEventListener('click', arrowClick);
+
+
+    // Image slide function
+    function slideshow() {
+        if (counter < imageSlides.length) {
+            imageLoop();
+        } else {
+            counter = 0;
+            hideImages();
+            imageLoop();
+        }
+    }
+
+    // Image order, Set time & Slide interval
+    setTimeout(slideshow, 1000);
+    var imageSlideshowInterval = setInterval(slideshow, 10000);
+</script>
