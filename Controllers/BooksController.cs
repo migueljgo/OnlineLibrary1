@@ -109,10 +109,21 @@ namespace OnlineLibrary1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Book book = db.Books.Find(id);
-            db.Books.Remove(book);
-            db.SaveChanges();
+            try
+            {
+                Book book = db.Books.Find(id);
+                db.Books.Remove(book);
+                db.SaveChanges();
+               
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "This book is being borrowed, cannot be deleted.";
+
+                return RedirectToAction("Index");
+            }
             return RedirectToAction("Index");
+
         }
 
         protected override void Dispose(bool disposing)

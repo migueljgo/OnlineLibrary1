@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<OnlineLibrary1.Models.Book>
 
 @{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Index";
     string role = Session["Role"].ToString();
 
@@ -17,73 +19,100 @@
         @Html.ActionLink("Create New", "Create")
     }
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title) 
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Author)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Genre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateAdded)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateModified)
-        </th>
-        <th></th>
-    </tr>
 
+<table class="table" id="books" width="100%">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateAdded)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateModified)
+            </th>
+            <th>Actions</th>
+
+        </tr>
+    </thead>
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Genre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateAdded)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateModified)
-            </td>
-            @if (role == "Admin")
-            {
+        <tbody>
+            <tr>
+
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.BookID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.BookID })
+                    @Html.DisplayFor(modelItem => item.Title)
                 </td>
-            }
-
-            @if (role == "User")
-            {
-            <td>
-                @Html.ActionLink("Borrow History", "BorrowIndex", "Borrow", new { userid = @Session["UserID"] }, new { @class = "btn btn-primary" })
-                @using (Html.BeginForm("BorrowIndex", "Borrow", FormMethod.Post))
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateAdded)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateModified)
+                </td>
+                @if (role == "Admin")
                 {
-                    Html.AntiForgeryToken();
-
-                    <input type="hidden" name="BookID" value="@item.BookID" />
-                    <input type="hidden" name="UserID" value="@Session["UserID"]" />
-                    <input type="submit" class="btn btn-success"value="Borrow" />
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.BookID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.BookID })
+                    </td>
                 }
-            </td>
-            }
-        </tr>
+
+                @if (role == "User")
+                {
+                    <td>
+                        @Html.ActionLink("Borrow History", "BorrowIndex", "Borrow", new { userid = @Session["UserID"] }, new { @class = "btn btn-primary" })
+                        @using (Html.BeginForm("BorrowIndex", "Borrow", FormMethod.Post))
+                        {
+                            Html.AntiForgeryToken();
+
+                            <input type="hidden" name="BookID" value="@item.BookID" />
+                            <input type="hidden" name="UserID" value="@Session["UserID"]" />
+                            <input type="submit" class="btn btn-success" value="Borrow" />
+                        }
+                    </td>
+                }
+
+            </tr>
+        </tbody>
     }
 
 </table>
+
+@*<script>
+    $(document).ready(function () {
+        $('#books').dataTable();
+    });
+</script>*@
+
+
+
+@if (TempData["Error"] != null)
+{
+    <script>
+
+            alert("@TempData["Error"]");
+
+    </script>
+}
+
+
